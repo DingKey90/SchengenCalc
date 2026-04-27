@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schengen Stay Calculator — 90/180 Day Rule | Free Tool</title>
+<meta name="description" content="Free Schengen calculator. Track your 90/180 day stays, plan future trips, and check compliance instantly. No registration required.">
+<meta name="keywords" content="schengen calculator, 90 180 rule, schengen days calculator, schengen visa calculator, non-EU travel, schengen stay tracker">
+<meta property="og:title" content="Schengen Stay Calculator — 90/180 Day Rule">
+<meta property="og:description" content="Track your Schengen days. Free, no signup, works offline.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- ADSENSE: replace XXXXXXXXXXXXXXXX with your publisher ID -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0f11;--surface:#16181c;--surface2:#1e2028;--border:#2a2d38;
+  --accent:#e8d5a3;--accent2:#c9a96e;--danger:#e07070;--warn:#e0b870;--ok:#7ec8a0;
+  --text:#e8e6e0;--muted:#7a7d8a;
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:300;min-height:100vh;
+  background-image:radial-gradient(ellipse 60% 50% at 80% 10%,rgba(232,213,163,.05) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 30% at 10% 80%,rgba(201,169,110,.04) 0%,transparent 50%)}
+
+/* HEADER */
+header{border-bottom:1px solid var(--border);padding:18px 36px;display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;background:rgba(14,15,17,.94);backdrop-filter:blur(12px);z-index:200;flex-wrap:wrap}
+header h1{font-family:var(--font-display);font-size:1.35rem;font-weight:400;color:var(--accent)}
+.subtitle{font-size:.7rem;color:var(--muted);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);
+  font-family:var(--font-mono);font-size:.68rem;padding:5px 9px;cursor:pointer;transition:all .15s;letter-spacing:.05em}
+.lang-btn:hover,.lang-btn.active{border-color:var(--accent2);color:var(--accent);background:var(--surface2)}
+
+/* NAV TABS */
+.nav-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface)}
+.nav-tab{background:none;border:none;color:var(--muted);font-family:var(--font-body);font-size:.82rem;
+  padding:13px 20px;cursor:pointer;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-1px}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent2)}
+
+/* AD SLOTS */
+.ad-banner{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;color:var(--muted);
+  font-size:.7rem;font-family:var(--font-mono);letter-spacing:.06em;position:relative;overflow:hidden}
+.ad-banner::before{content:'AD';position:absolute;top:6px;right:8px;font-size:.58rem;color:var(--border);letter-spacing:.1em}
+.ad-top{width:100%;height:90px;margin-bottom:18px}
+.ad-side{width:100%;height:250px}
+.ad-side2{width:100%;height:180px}
+
+/* LAYOUT */
+.page-wrap{display:flex;gap:22px;max-width:1080px;margin:0 auto;padding:28px 22px 80px}
+.main-col{flex:1;min-width:0}
+.side-col{width:290px;flex-shrink:0}
+@media(max-width:880px){.side-col{display:none}}
+@media(max-width:580px){header{padding:14px 16px}.page-wrap{padding:18px 12px 60px}}
+
+/* TAB CONTENT */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:14px}
+.card-title{font-family:var(--font-mono);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+
+/* RING */
+.result-block{display:flex;align-items:center;gap:26px}
+.ring-wrap{position:relative;flex-shrink:0}
+.ring-svg{transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--border);stroke-width:8}
+.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1),stroke .4s}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-days{font-family:var(--font-display);font-size:2.5rem;line-height:1}
+.ring-label{font-family:var(--font-mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.result-stats{flex:1}
+.stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border)}
+.stat-row:last-child{border-bottom:none}
+.stat-label{font-size:.78rem;color:var(--muted)}
+.stat-value{font-family:var(--font-mono);font-size:.88rem;font-weight:500}
+.c-ok{color:var(--ok)}.c-warn{color:var(--warn)}.c-danger{color:var(--danger)}.c-neutral{color:var(--text)}
+.alert{border-radius:8px;padding:11px 15px;font-size:.81rem;line-height:1.5;display:none;margin-top:12px}
+.alert.show{display:block}
+.alert-ok{background:rgba(126,200,160,.1);border:1px solid rgba(126,200,160,.25);color:var(--ok)}
+.alert-warn{background:rgba(224,184,112,.1);border:1px solid rgba(224,184,112,.25);color:var(--warn)}
+.alert-danger{background:rgba(224,112,112,.1);border:1px solid rgba(224,112,112,.25);color:var(--danger)}
+
+/* TRIPS */
+.trips-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--text);
+  font-family:var(--font-body);font-size:.8rem;padding:7px 13px;cursor:pointer;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--surface2);border-color:var(--accent2)}
+.btn-accent{background:var(--accent);border-color:var(--accent);color:#111;font-weight:500}
+.btn-accent:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn-sm{font-size:.74rem;padding:6px 11px}
+.trips-list{display:flex;flex-direction:column;gap:9px}
+.trip-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:9px;align-items:end;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;
+  animation:slideIn .2s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.trip-row label{font-size:.67rem;color:var(--muted);font-family:var(--font-mono);letter-spacing:.08em;display:block;margin-bottom:4px}
+.trip-row input[type="date"]{background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-family:var(--font-mono);font-size:.78rem;padding:6px 9px;width:100%;
+  outline:none;cursor:pointer;color-scheme:dark;transition:border-color .15s}
+.trip-row input[type="date"]:focus{border-color:var(--accent2)}
+.trip-days-badge{font-family:var(--font-mono);font-size:.7rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:6px 9px;text-align:center;min-width:48px;white-space:nowrap}
+.remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;
+  padding:5px 4px;transition:color .15s;line-height:1}
+.remove-btn:hover{color:var(--danger)}
+.trip-row.conflict{border-color:rgba(224,112,112,.5);background:rgba(224,112,112,.06)}
+.trip-row.conflict input[type="date"]{border-color:rgba(224,112,112,.4)}
+.conflict-msg{grid-column:1/-1;font-size:.7rem;color:var(--danger);font-family:var(--font-mono);
+  padding:4px 2px;letter-spacing:.02em}
+.trip-row.conflict{border-color:rgba(224,112,112,.5);background:rgba(224,112,112,.06)}
+.conflict-msg{font-family:var(--font-mono);font-size:.67rem;color:var(--danger);
+  grid-column:1/-1;margin-top:-2px;padding:2px 0}
+
+/* TIMELINE */
+.timeline{position:relative;height:32px;border-radius:6px;overflow:hidden;background:var(--surface2);margin-top:4px}
+.timeline-bar{position:absolute;height:100%;border-radius:4px;transition:all .4s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:var(--font-mono);overflow:hidden}
+.timeline-bar-label{white-space:nowrap;padding:0 5px;color:rgba(0,0,0,.7);font-weight:500}
+.timeline-legend{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:.69rem;color:var(--muted)}
+.legend-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* PROJECTION */
+.proj-row{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap}
+.proj-row label{font-size:.79rem;color:var(--muted);white-space:nowrap}
+.proj-row input[type="date"]{background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-family:var(--font-mono);font-size:.78rem;padding:6px 9px;
+  outline:none;cursor:pointer;color-scheme:dark;transition:border-color .15s}
+.proj-row input:focus{border-color:var(--accent2)}
+.proj-result{font-family:var(--font-mono);font-size:.8rem;padding:13px 15px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:8px;line-height:1.7;display:none}
+.proj-result.show{display:block}
+
+/* SHARE */
+.share-box{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.share-url{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:9px 13px;font-family:var(--font-mono);font-size:.72rem;color:var(--muted);
+  word-break:break-all;min-height:40px;display:flex;align-items:center}
+.copy-toast{font-family:var(--font-mono);font-size:.73rem;color:var(--ok);opacity:0;transition:opacity .3s}
+
+/* INFO */
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr}}
+.info-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:15px}
+.info-item .num{font-family:var(--font-display);font-size:1.8rem;color:var(--accent);line-height:1}
+.info-item .desc{font-size:.74rem;color:var(--muted);margin-top:5px;line-height:1.5}
+
+/* COUNTRIES */
+.countries-intro{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.countries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:600px){.countries-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:360px){.countries-grid{grid-template-columns:1fr}}
+.country-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:13px;display:flex;align-items:center;gap:11px;transition:border-color .15s}
+.country-card:hover{border-color:var(--accent2)}
+.flag{font-size:1.5rem;line-height:1}
+.cname{font-size:.85rem;font-weight:500;color:var(--text)}
+.cnote{font-size:.68rem;color:var(--muted);margin-top:2px}
+
+/* FAQ */
+.faq{margin-top:0}
+.faq h2{font-family:var(--font-display);font-size:1.3rem;color:var(--accent);margin-bottom:16px}
+.faq-item{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.faq-q{background:var(--surface2);padding:13px 16px;font-size:.86rem;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q:hover{background:var(--surface)}
+.faq-a{background:var(--surface);padding:0 16px;font-size:.8rem;color:var(--muted);
+  line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-a.open{max-height:300px;padding:13px 16px}
+.faq-chev{transition:transform .3s;font-size:.68rem}
+.faq-chev.open{transform:rotate(180deg)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:32px 18px;color:var(--muted);font-size:.81rem}
+.empty-state .big{font-size:1.9rem;margin-bottom:9px}
+
+/* SIDEBAR */
+.side-sticky{position:sticky;top:80px;display:flex;flex-direction:column;gap:14px}
+.side-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+.side-card-title{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
+.qf{display:flex;justify-content:space-between;font-size:.78rem;padding:6px 0;border-bottom:1px solid var(--border)}
+.qf:last-child{border-bottom:none}
+.qf-val{font-family:var(--font-mono);font-size:.76rem;color:var(--accent)}
+
+footer{max-width:1080px;margin:0 auto;padding:18px 22px 48px;font-size:.7rem;
+  color:var(--muted);line-height:1.6;border-top:1px solid var(--border)}
+footer a{color:var(--accent2);text-decoration:none}
+
+[data-tip]{position:relative;cursor:help}
+[data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);background:#2a2d38;border:1px solid var(--border);border-radius:6px;
+  padding:5px 9px;font-size:.68rem;white-space:nowrap;pointer-events:none;opacity:0;
+  transition:opacity .15s;z-index:50;font-family:var(--font-body);font-weight:300;color:var(--text)}
+[data-tip]:hover::after{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Schengen Calculator</h1>
+    <div class="subtitle" id="i-header_sub">90 / 180 Day Rule Tracker</div>
+  </div>
+  <div class="header-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('calculator',this)" id="i-tab_calc">Calculator</button>
+  <button class="nav-tab" onclick="showTab('countries',this)" id="i-tab_countries">Schengen Countries</button>
+</div>
+
+<!-- TOP AD BANNER -->
+<div style="max-width:1080px;margin:18px auto 0;padding:0 22px">
+  <div class="ad-banner ad-top">
+    <!-- AdSense leaderboard 728×90
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+    Advertisement
+  </div>
+</div>
+
+<div class="page-wrap">
+<div class="main-col">
+
+<!-- ═══ CALCULATOR TAB ═══ -->
+<div id="tab-calculator" class="tab-content active">
+
+  <!-- STATUS -->
+  <div class="card">
+    <div class="card-title" id="i-status_title">Current Status — as of today</div>
+    <div class="result-block">
+      <div class="ring-wrap">
+        <svg class="ring-svg" width="114" height="114" viewBox="0 0 114 114">
+          <circle class="ring-track" cx="57" cy="57" r="47"/>
+          <circle class="ring-fill" id="ringFill" cx="57" cy="57" r="47"
+            stroke-dasharray="295" stroke-dashoffset="295" stroke="var(--ok)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-days" id="daysLeft">—</div>
+          <div class="ring-label" id="i-ring_label">days left</div>
+        </div>
+      </div>
+      <div class="result-stats">
+        <div class="stat-row">
+          <span class="stat-label" data-tip="Days in Schengen in the rolling 180-day window" id="i-stat_used">Days used (180d)</span>
+          <span class="stat-value" id="daysUsed">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label" id="i-stat_limit">Limit</span>
+          <span class="stat-value c-neutral">90 <span id="i-days_word">days</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label" data-tip="Earliest you can re-enter if you left today" id="i-stat_reentry">Earliest re-entry</span>
+          <span class="stat-value" id="reentry">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label" data-tip="Latest exit date if currently inside Schengen" id="i-stat_exit">Must exit by</span>
+          <span class="stat-value" id="mustExit">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-ok" id="alertOk">✓ <span id="i-alert_ok">You're compliant. Enjoy your stay!</span></div>
+    <div class="alert alert-warn" id="alertWarn">⚠ <span id="i-alert_warn">Approaching the limit — plan your exit soon.</span></div>
+    <div class="alert alert-danger" id="alertDanger">✕ <span id="i-alert_danger">Overstay detected. You may face fines or a re-entry ban.</span></div>
+  </div>
+
+  <!-- TRIPS -->
+  <div class="card">
+    <div class="trips-header">
+      <div class="card-title" style="margin-bottom:0" id="i-trips_title">Your Schengen Trips</div>
+      <button class="btn btn-accent" onclick="addTrip()" id="i-add_trip">+ Add Trip</button>
+    </div>
+    <div class="trips-list" id="tripsList">
+      <div class="empty-state"><div class="big">✈</div><span id="i-empty_trips">Add your trips to get started</span></div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="card" id="timelineCard" style="display:none">
+    <div class="card-title" id="i-timeline_title">180-day Rolling Window — last 6 months</div>
+    <div class="timeline" id="timeline"></div>
+    <div class="timeline-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7ec8a0"></div><span id="i-leg_in">In Schengen</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3a3d48"></div><span id="i-leg_out">Outside</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(232,213,163,.4);border:1px solid rgba(232,213,163,.4)"></div><span id="i-leg_today">Today</span></div>
+    </div>
+  </div>
+
+  <!-- PLANNER -->
+  <div class="card">
+    <div class="card-title" id="i-planner_title">Future Trip Planner</div>
+    <div class="proj-row">
+      <label id="i-plan_enter">If I enter on</label>
+      <input type="date" id="projEntry" oninput="calcProjection()">
+      <label id="i-plan_until">and stay until</label>
+      <input type="date" id="projExit" oninput="calcProjection()">
+    </div>
+    <div class="proj-result" id="projResult"></div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="card">
+    <div class="card-title" id="i-share_title">Share Your Calculation</div>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:12px" id="i-share_desc">Generate a shareable link with your trips encoded — bookmark it or send it.</p>
+    <div class="share-box">
+      <div class="share-url" id="shareUrl"><span id="i-share_ph">Add trips above to generate a link…</span></div>
+      <button class="btn btn-sm" onclick="copyShare()" id="i-copy_btn">Copy</button>
+      <span class="copy-toast" id="copyToast" id="i-copy_toast">Copied!</span>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="card">
+    <div class="card-title" id="i-rule_title">The 90/180 Rule — Key Numbers</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="num">90</div><div class="desc" id="i-info_90">Maximum days allowed in any 180-day rolling period</div></div>
+      <div class="info-item"><div class="num">180</div><div class="desc" id="i-info_180">The rolling window moves daily — not a calendar year</div></div>
+      <div class="info-item"><div class="num">27</div><div class="desc" id="i-info_27">Schengen member states covered by this rule</div></div>
+    </div>
+  </div>
+
+</div><!-- /calculator -->
+
+<!-- ═══ COUNTRIES TAB ═══ -->
+<div id="tab-countries" class="tab-content">
+  <div class="card">
+    <div class="card-title" id="i-countries_title">27 Schengen Area Countries</div>
+    <p class="countries-intro" id="i-countries_intro">The Schengen Area comprises 27 European countries that have abolished passport controls at their mutual borders. Non-EU/EEA nationals may stay for a maximum of 90 days in any 180-day rolling period. Switzerland, Norway, Iceland and Liechtenstein are Schengen members but not EU members. Ireland is not part of the Schengen Area.</p>
+    <div class="countries-grid" id="countriesGrid"></div>
+  </div>
+  <div class="card faq">
+    <h2 id="i-faq_title">Frequently Asked Questions</h2>
+    <div id="faqList"></div>
+  </div>
+</div>
+
+</div><!-- /main-col -->
+
+<!-- SIDEBAR -->
+<div class="side-col">
+  <div class="side-sticky">
+    <div class="ad-banner ad-side">
+      <!-- AdSense 300×250
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+      Advertisement
+    </div>
+    <div class="side-card">
+      <div class="side-card-title" id="i-sidebar_facts">Quick Reference</div>
+      <div class="qf"><span>Max stay</span><span class="qf-val">90 days</span></div>
+      <div class="qf"><span>Window</span><span class="qf-val">180 days</span></div>
+      <div class="qf"><span>Countries</span><span class="qf-val">27</span></div>
+      <div class="qf"><span>Visa-free nations</span><span class="qf-val">60+</span></div>
+      <div class="qf"><span>Entry day counts</span><span class="qf-val">Yes</span></div>
+      <div class="qf"><span>Exit day counts</span><span class="qf-val">Yes</span></div>
+    </div>
+    <div class="ad-banner ad-side2">
+      <!-- AdSense slot 2 -->
+      Advertisement
+    </div>
+  </div>
+</div>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <strong>Disclaimer:</strong> <span id="i-footer">This tool is for informational purposes only and does not constitute legal advice. Always verify your status with official sources. Entry and exit dates both count as days spent in the Schengen Area.</span>
+  &nbsp;·&nbsp; <a href="https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/schengen-visa_en" target="_blank">Official EU info ↗</a>
+</footer>
+
+<script>
+// ═══════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════
+const L = {
+  en:{
+    header_sub:'90 / 180 Day Rule Tracker',tab_calc:'Calculator',tab_countries:'Schengen Countries',
+    status_title:'Current Status — as of today',ring_label:'days left',
+    stat_used:'Days used (180d)',stat_limit:'Limit',days_word:'days',
+    stat_reentry:'Earliest re-entry',stat_exit:'Must exit by',
+    alert_ok:"You're compliant. Enjoy your stay!",
+    alert_warn:'Approaching the limit — plan your exit soon.',
+    alert_danger:'Overstay detected. You may face fines or a re-entry ban.',
+    trips_title:'Your Schengen Trips',add_trip:'+ Add Trip',
+    empty_trips:'Add your trips to get started',
+    label_entry:'Entry date',label_exit:'Exit date',
+    timeline_title:'180-day Rolling Window — last 6 months',
+    leg_in:'In Schengen',leg_out:'Outside',leg_today:'Today',
+    planner_title:'Future Trip Planner',plan_enter:'If I enter on',plan_until:'and stay until',
+    share_title:'Share Your Calculation',
+    share_desc:'Generate a shareable link with your trips encoded — bookmark it or send it.',
+    share_ph:'Add trips above to generate a link…',copy_btn:'Copy',copy_toast:'Copied!',
+    rule_title:'The 90/180 Rule — Key Numbers',
+    info_90:'Maximum days allowed in any 180-day rolling period',
+    info_180:'The rolling window moves daily — not a calendar year',
+    info_27:'Schengen member states covered by this rule',
+    countries_title:'27 Schengen Area Countries',
+    countries_intro:'The Schengen Area comprises 27 European countries that have abolished passport controls at their mutual borders. Non-EU/EEA nationals may stay for a maximum of 90 days in any 180-day rolling period. Switzerland, Norway, Iceland and Liechtenstein are Schengen members but not EU members. Ireland is not part of the Schengen Area.',
+    faq_title:'Frequently Asked Questions',sidebar_facts:'Quick Reference',
+    footer:'This tool is for informational purposes only and does not constitute legal advice. Always verify your status with official sources. Entry and exit dates both count as days spent in the Schengen Area.',
+    proj_ok:'✓ This trip looks compliant.',proj_over:'✕ This trip would exceed the 90-day limit by',
+    proj_dur:'Duration',proj_max:'Max used',proj_rem:'Remaining after',
+    ds:'d',now_lbl:'Now (you have days left)',leave_now:'Leave immediately',
+  },
+  de:{
+    header_sub:'90 / 180-Tage-Regel Tracker',tab_calc:'Rechner',tab_countries:'Schengen-Länder',
+    status_title:'Aktueller Status — Stand heute',ring_label:'Tage übrig',
+    stat_used:'Genutzte Tage (180d)',stat_limit:'Limit',days_word:'Tage',
+    stat_reentry:'Früheste Wiedereinreise',stat_exit:'Spätester Ausreisetag',
+    alert_ok:'Alles in Ordnung. Genießen Sie Ihren Aufenthalt!',
+    alert_warn:'Limit wird erreicht — bitte Ausreise planen.',
+    alert_danger:'Überschreitung erkannt. Es drohen Geldstrafen oder Einreiseverbot.',
+    trips_title:'Ihre Schengen-Reisen',add_trip:'+ Reise hinzufügen',
+    empty_trips:'Fügen Sie Reisen hinzu, um zu beginnen',
+    label_entry:'Einreisedatum',label_exit:'Ausreisedatum',
+    timeline_title:'180-Tage-Fenster — letzte 6 Monate',
+    leg_in:'Im Schengen-Raum',leg_out:'Außerhalb',leg_today:'Heute',
+    planner_title:'Reiseplaner',plan_enter:'Wenn ich einreise am',plan_until:'und bleibe bis',
+    share_title:'Berechnung teilen',
+    share_desc:'Erstellen Sie einen Link mit Ihren Reisen — teilen oder als Lesezeichen speichern.',
+    share_ph:'Fügen Sie Reisen hinzu, um einen Link zu erstellen…',copy_btn:'Kopieren',copy_toast:'Kopiert!',
+    rule_title:'Die 90/180-Tage-Regel',
+    info_90:'Maximale Aufenthaltsdauer in einem 180-Tage-Zeitraum',
+    info_180:'Das Fenster verschiebt sich täglich — kein Kalenderjahr',
+    info_27:'Schengen-Mitgliedstaaten, für die diese Regel gilt',
+    countries_title:'27 Schengen-Staaten',
+    countries_intro:'Der Schengen-Raum umfasst 27 europäische Länder, die ihre Grenzkontrollen abgeschafft haben. Nicht-EU/EWR-Bürger dürfen sich maximal 90 Tage in einem rollierenden 180-Tage-Zeitraum aufhalten. Die Schweiz, Norwegen, Island und Liechtenstein sind Schengen-Mitglieder, aber nicht in der EU. Irland gehört nicht zum Schengen-Raum.',
+    faq_title:'Häufig gestellte Fragen',sidebar_facts:'Kurzreferenz',
+    footer:'Dieses Tool dient nur zu Informationszwecken und stellt keine Rechtsberatung dar. Bitte verifizieren Sie immer mit offiziellen Quellen. Ein- und Ausreisetage zählen beide als Aufenthaltstage.',
+    proj_ok:'✓ Diese Reise ist regelkonform.',proj_over:'✕ Diese Reise würde das 90-Tage-Limit überschreiten um',
+    proj_dur:'Dauer',proj_max:'Max. genutzt',proj_rem:'Verbleibend',
+    ds:'T',now_lbl:'Jetzt (noch Tage verfügbar)',leave_now:'Sofort ausreisen',
+  },
+  fr:{
+    header_sub:'Règle des 90/180 Jours',tab_calc:'Calculateur',tab_countries:'Pays Schengen',
+    status_title:"Statut actuel — au jour d'aujourd'hui",ring_label:'jours restants',
+    stat_used:'Jours utilisés (180j)',stat_limit:'Limite',days_word:'jours',
+    stat_reentry:'Réentrée au plus tôt',stat_exit:'Doit sortir avant le',
+    alert_ok:'Tout est en ordre. Profitez de votre séjour !',
+    alert_warn:'Limite proche — planifiez votre sortie.',
+    alert_danger:"Dépassement détecté. Risque d'amendes ou d'interdiction d'entrée.",
+    trips_title:'Vos voyages Schengen',add_trip:'+ Ajouter un voyage',
+    empty_trips:'Ajoutez vos voyages pour commencer',
+    label_entry:"Date d'entrée",label_exit:'Date de sortie',
+    timeline_title:'Fenêtre glissante de 180 jours — 6 derniers mois',
+    leg_in:'Dans Schengen',leg_out:'Hors Schengen',leg_today:"Aujourd'hui",
+    planner_title:'Planificateur de voyage',plan_enter:"Si j'entre le",plan_until:"et reste jusqu'au",
+    share_title:'Partager votre calcul',
+    share_desc:'Générez un lien avec vos voyages encodés — partagez-le ou enregistrez-le.',
+    share_ph:'Ajoutez des voyages ci-dessus pour générer un lien…',copy_btn:'Copier',copy_toast:'Copié !',
+    rule_title:'La règle des 90/180 jours',
+    info_90:'Nombre maximum de jours autorisés dans toute période de 180 jours',
+    info_180:'La fenêtre glissante évolue chaque jour — pas une année civile',
+    info_27:'États membres Schengen couverts par cette règle',
+    countries_title:"27 pays de l'espace Schengen",
+    countries_intro:"L'espace Schengen comprend 27 pays européens qui ont supprimé les contrôles aux frontières. Les ressortissants non-UE/EEE peuvent séjourner au maximum 90 jours dans toute période glissante de 180 jours. La Suisse, la Norvège, l'Islande et le Liechtenstein font partie de Schengen sans être dans l'UE. L'Irlande n'est pas dans l'espace Schengen.",
+    faq_title:'Questions fréquentes',sidebar_facts:'Référence rapide',
+    footer:"Cet outil est fourni à titre informatif uniquement et ne constitue pas un conseil juridique. Vérifiez toujours auprès de sources officielles. Les dates d'entrée et de sortie comptent toutes deux comme jours de séjour.",
+    proj_ok:'✓ Ce voyage est conforme.',proj_over:'✕ Ce voyage dépasserait la limite de 90 jours de',
+    proj_dur:'Durée',proj_max:'Max utilisés',proj_rem:'Restant après',
+    ds:'j',now_lbl:'Maintenant (jours disponibles)',leave_now:'Partir immédiatement',
+  }
+};
+
+let lang = 'en';
+const tr = () => L[lang];
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === l));
+  // Update all i18n elements
+  const map = {
+    'i-header_sub':'header_sub','i-tab_calc':'tab_calc','i-tab_countries':'tab_countries',
+    'i-status_title':'status_title','i-ring_label':'ring_label','i-stat_used':'stat_used',
+    'i-stat_limit':'stat_limit','i-days_word':'days_word','i-stat_reentry':'stat_reentry',
+    'i-stat_exit':'stat_exit','i-alert_ok':'alert_ok','i-alert_warn':'alert_warn',
+    'i-alert_danger':'alert_danger','i-trips_title':'trips_title','i-add_trip':'add_trip',
+    'i-empty_trips':'empty_trips','i-timeline_title':'timeline_title',
+    'i-leg_in':'leg_in','i-leg_out':'leg_out','i-leg_today':'leg_today',
+    'i-planner_title':'planner_title','i-plan_enter':'plan_enter','i-plan_until':'plan_until',
+    'i-share_title':'share_title','i-share_desc':'share_desc','i-share_ph':'share_ph',
+    'i-copy_btn':'copy_btn','i-rule_title':'rule_title','i-info_90':'info_90',
+    'i-info_180':'info_180','i-info_27':'info_27','i-countries_title':'countries_title',
+    'i-countries_intro':'countries_intro','i-faq_title':'faq_title','i-sidebar_facts':'sidebar_facts',
+    'i-footer':'footer',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el && tr()[key]) el.textContent = tr()[key];
+  });
+  renderTrips();
+  buildFAQ();
+  recalc();
+}
+
+// ═══════════════════════════════════════
+// COUNTRIES
+// ═══════════════════════════════════════
+const COUNTRIES = [
+  {f:'🇦🇹',n:'Austria',y:1995},{f:'🇧🇪',n:'Belgium',y:1985},{f:'🇭🇷',n:'Croatia',y:2023},
+  {f:'🇨🇿',n:'Czech Republic',y:2007},{f:'🇩🇰',n:'Denmark',y:2001},{f:'🇪🇪',n:'Estonia',y:2007},
+  {f:'🇫🇮',n:'Finland',y:2001},{f:'🇫🇷',n:'France',y:1995},{f:'🇩🇪',n:'Germany',y:1995},
+  {f:'🇬🇷',n:'Greece',y:2000},{f:'🇭🇺',n:'Hungary',y:2007},{f:'🇮🇸',n:'Iceland',y:2001,eu:false},
+  {f:'🇮🇹',n:'Italy',y:1997},{f:'🇱🇻',n:'Latvia',y:2007},{f:'🇱🇮',n:'Liechtenstein',y:2011,eu:false},
+  {f:'🇱🇹',n:'Lithuania',y:2007},{f:'🇱🇺',n:'Luxembourg',y:1985},{f:'🇲🇹',n:'Malta',y:2007},
+  {f:'🇳🇱',n:'Netherlands',y:1995},{f:'🇳🇴',n:'Norway',y:2001,eu:false},{f:'🇵🇱',n:'Poland',y:2007},
+  {f:'🇵🇹',n:'Portugal',y:1995},{f:'🇸🇰',n:'Slovakia',y:2007},{f:'🇸🇮',n:'Slovenia',y:2007},
+  {f:'🇪🇸',n:'Spain',y:1995},{f:'🇸🇪',n:'Sweden',y:2001},{f:'🇨🇭',n:'Switzerland',y:2008,eu:false},
+];
+
+function buildCountries() {
+  document.getElementById('countriesGrid').innerHTML = COUNTRIES.map(c =>
+    `<div class="country-card">
+      <div class="flag">${c.f}</div>
+      <div><div class="cname">${c.n}</div><div class="cnote">${c.eu===false?'Non-EU, ':''}Since ${c.y}</div></div>
+    </div>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════
+// FAQ
+// ═══════════════════════════════════════
+const FAQS = {
+  en:[
+    {q:'How does the 90/180 rule actually work?',a:'The rule allows non-EU/EEA nationals to stay in the Schengen Area for a maximum of 90 days in any 180-day rolling period. The 180-day window counts backwards from any given day. Both entry and exit days count as full days spent in Schengen.'},
+    {q:'Can I travel between Schengen countries freely?',a:'Yes. You can travel freely between all 27 Schengen countries. All days in any Schengen country are combined and count toward your 90-day limit — there is no per-country limit within Schengen.'},
+    {q:'What happens if I overstay?',a:'Overstaying can result in fines, deportation, and a multi-year ban on re-entering the Schengen Area. Consequences vary by country and individual circumstances. Border officers may ask to see your entry/exit stamps.'},
+    {q:'Does the rule reset at the start of the year?',a:'No. The 180-day window is rolling and continuous — it never resets on January 1st. Any calculation must look at the 180 days immediately preceding the date being checked.'},
+    {q:'Is the UK part of Schengen?',a:'No. The UK left the EU in 2020 and was never a full Schengen member. Days in the UK do not count toward your Schengen limit. However, UK rules apply separately to non-EEA nationals visiting Britain.'},
+    {q:'Do EU/EEA citizens need to follow the 90/180 rule?',a:'No. EU, EEA (Norway, Iceland, Liechtenstein) and Swiss citizens have the right to free movement and are not subject to the 90/180 day rule within Schengen.'},
+    {q:'What is ETIAS and does it affect this rule?',a:"ETIAS (European Travel Information and Authorisation System) is a pre-travel authorisation for visa-exempt nationals visiting Schengen. It does not change the 90/180 day limit — it simply adds a pre-registration step before entry."},
+  ],
+  de:[
+    {q:'Wie funktioniert die 90/180-Tage-Regel genau?',a:'Die Regel erlaubt Nicht-EU/EWR-Bürgern einen Aufenthalt von maximal 90 Tagen in einem rollierenden 180-Tage-Zeitraum. Das Fenster wird täglich rückwärts berechnet. Ein- und Ausreisetage zählen beide als volle Aufenthaltstage.'},
+    {q:'Kann ich frei zwischen Schengen-Ländern reisen?',a:'Ja. Sie können sich frei zwischen allen 27 Schengen-Staaten bewegen. Alle Aufenthaltstage in beliebigen Schengen-Ländern werden addiert — es gibt keine Länderbeschränkung innerhalb des Schengen-Raums.'},
+    {q:'Was passiert bei einem Überschreiten der Aufenthaltsdauer?',a:'Ein Überschreiten kann zu Geldstrafen, Abschiebung und einem mehrjährigen Einreiseverbot führen. Die Konsequenzen variieren je nach Land und Einzelfall.'},
+    {q:'Setzt die Regel am Jahresbeginn zurück?',a:'Nein. Das 180-Tage-Fenster ist rollierend und kontinuierlich — es setzt sich niemals zum 1. Januar zurück.'},
+    {q:'Ist Großbritannien Teil des Schengen-Raums?',a:'Nein. Das Vereinigte Königreich ist 2020 aus der EU ausgetreten und war nie vollständiges Schengen-Mitglied. Tage in Großbritannien zählen nicht zur Schengen-Aufenthaltsdauer.'},
+    {q:'Müssen EU/EWR-Bürger die 90/180-Tage-Regel einhalten?',a:'Nein. EU-, EWR- (Norwegen, Island, Liechtenstein) und Schweizer Bürger genießen das Recht auf Freizügigkeit und unterliegen der Regel nicht.'},
+    {q:'Was ist ETIAS und beeinflusst es diese Regel?',a:'ETIAS ist eine Reisegenehmigung für visumbefreite Staatsangehörige. Es ändert nichts an der 90/180-Tage-Grenze — es fügt lediglich eine Voranmeldepflicht hinzu.'},
+  ],
+  fr:[
+    {q:'Comment fonctionne concrètement la règle des 90/180 jours ?',a:"La règle autorise les ressortissants non-UE/EEE à séjourner dans l'espace Schengen au maximum 90 jours dans toute période glissante de 180 jours. Les jours d'entrée et de sortie comptent tous deux comme des jours complets."},
+    {q:'Puis-je voyager librement entre les pays Schengen ?',a:'Oui. Vous pouvez voyager librement entre les 27 pays Schengen. Tous vos jours dans tout pays Schengen sont cumulés — il n\'y a pas de limite par pays au sein de Schengen.'},
+    {q:'Que se passe-t-il en cas de dépassement ?',a:"Un dépassement peut entraîner des amendes, une expulsion et une interdiction pluriannuelle de retour dans l'espace Schengen. Les conséquences varient selon le pays et les circonstances."},
+    {q:'La règle se réinitialise-t-elle en début d\'année ?',a:"Non. La fenêtre de 180 jours est glissante et continue — elle ne se réinitialise jamais le 1er janvier."},
+    {q:'Le Royaume-Uni fait-il partie de l\'espace Schengen ?',a:"Non. Le Royaume-Uni a quitté l'UE en 2020 et n'était pas membre à part entière de Schengen. Les jours au Royaume-Uni ne comptent pas vers votre limite Schengen."},
+    {q:'Les citoyens UE/EEE doivent-ils respecter la règle 90/180 ?',a:"Non. Les citoyens de l'UE, de l'EEE (Norvège, Islande, Liechtenstein) et de Suisse bénéficient de la libre circulation et ne sont pas soumis à cette règle."},
+    {q:"Qu'est-ce que l'ETIAS et affecte-t-il cette règle ?",a:"L'ETIAS est une autorisation de voyage préalable pour les ressortissants exemptés de visa. Il ne modifie pas la limite des 90/180 jours — il ajoute simplement une pré-inscription avant l'entrée."},
+  ],
+};
+
+function buildFAQ() {
+  const faqs = FAQS[lang] || FAQS.en;
+  document.getElementById('faqList').innerHTML = faqs.map((f, i) =>
+    `<div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span><span class="faq-chev" id="chev-${i}">▾</span>
+      </div>
+      <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+    </div>`
+  ).join('');
+}
+
+function toggleFAQ(i) {
+  document.getElementById('faq-a-'+i).classList.toggle('open');
+  document.getElementById('chev-'+i).classList.toggle('open');
+}
+
+// ═══════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// TRIP STATE
+// ═══════════════════════════════════════
+let trips = [], tid = 0;
+const toD = s => s ? new Date(s+'T00:00:00') : null;
+const fmt = d => d ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+const iso = d => { const x=new Date(d); x.setMinutes(x.getMinutes()-x.getTimezoneOffset()); return x.toISOString().slice(0,10); };
+const dBetween = (a,b) => Math.round((b-a)/86400000);
+
+function daysInWindow(wEnd, skipConflicts=true) {
+  const wStart = new Date(wEnd); wStart.setDate(wStart.getDate()-179);
+  const conflicts = skipConflicts ? getConflictIds() : new Set();
+  let n=0;
+  for (const t of trips) {
+    if (!t.entry||!t.exit) continue;
+    if (conflicts.has(t.id)) continue;
+    const s=t.entry>wStart?t.entry:wStart, e=t.exit<wEnd?t.exit:wEnd;
+    if (e>=s) n+=dBetween(s,e)+1;
+  }
+  return n;
+}
+
+function addTrip() {
+  trips.push({id:++tid,entry:null,exit:null});
+  renderTrips();
+}
+function removeTrip(id) {
+  trips=trips.filter(t=>t.id!==id); renderTrips(); recalc();
+}
+
+// Returns set of trip IDs that conflict with at least one other trip
+function getConflictIds() {
+  const valid=trips.filter(t=>t.entry&&t.exit&&t.exit>=t.entry);
+  const conflicted=new Set();
+  for (let i=0;i<valid.length;i++) {
+    for (let j=i+1;j<valid.length;j++) {
+      const a=valid[i], b=valid[j];
+      // Overlap if a.entry <= b.exit AND b.entry <= a.exit
+      if (a.entry<=b.exit && b.entry<=a.exit) {
+        conflicted.add(a.id); conflicted.add(b.id);
+      }
+    }
+  }
+  return conflicted;
+}
+
+function updateTrip(id,field,val) {
+  const t=trips.find(t=>t.id===id); if(!t) return;
+  t[field]=toD(val);
+  if (t.entry&&t.exit&&t.exit<t.entry) {
+    t.exit=new Date(t.entry);
+    const r=document.getElementById('tr-'+id);
+    if(r) r.querySelector('.ei').value=iso(t.exit);
+  }
+  renderTrips(); recalc();
+}
+function badge(id, isConflict) {
+  const t=trips.find(t=>t.id===id), el=document.getElementById('b-'+id);
+  if(!el||!t) return;
+  if(t.entry&&t.exit&&t.exit>=t.entry) {
+    const d=dBetween(t.entry,t.exit)+1;
+    el.textContent=d+tr().ds;
+    el.style.color=isConflict?'var(--danger)':d>90?'var(--danger)':'var(--ok)';
+  } else { el.textContent='—'; el.style.color='var(--muted)'; }
+}
+function renderTrips() {
+  const list=document.getElementById('tripsList');
+  if(!trips.length) {
+    list.innerHTML=`<div class="empty-state"><div class="big">✈</div><span>${tr().empty_trips}</span></div>`;
+    return;
+  }
+  const conflicts=getConflictIds();
+  list.innerHTML='';
+  trips.forEach(t => {
+    const isConflict=conflicts.has(t.id);
+    const r=document.createElement('div');
+    r.className='trip-row'+(isConflict?' conflict':''); r.id='tr-'+t.id;
+    r.innerHTML=`<div><label>${tr().label_entry}</label>
+      <input type="date" value="${t.entry?iso(t.entry):''}" onchange="updateTrip(${t.id},'entry',this.value)" max="${iso(new Date())}">
+    </div><div><label>${tr().label_exit}</label>
+      <input type="date" class="ei" value="${t.exit?iso(t.exit):''}" onchange="updateTrip(${t.id},'exit',this.value)" max="${iso(new Date())}">
+    </div>
+    <div class="trip-days-badge" id="b-${t.id}" style="color:var(--muted)">—</div>
+    <button class="remove-btn" onclick="removeTrip(${t.id})">×</button>
+    ${isConflict?`<div class="conflict-msg">⚠ Overlaps with another trip</div>`:''}`;
+    list.appendChild(r); badge(t.id, isConflict);
+  });
+}
+
+// ═══════════════════════════════════════
+// RECALC
+// ═══════════════════════════════════════
+function recalc() {
+  const today=new Date(); today.setHours(0,0,0,0);
+  const used=daysInWindow(today), left=Math.max(0,90-used);
+  const circ=295, pct=Math.min(used/90,1);
+  const ring=document.getElementById('ringFill');
+  ring.style.strokeDashoffset=circ-pct*circ;
+  ring.style.stroke=used>90?'var(--danger)':used>=75?'var(--warn)':'var(--ok)';
+  const dl=document.getElementById('daysLeft');
+  dl.textContent=used>90?'–'+(used-90):left;
+  dl.style.color=used>90?'var(--danger)':used>=75?'var(--warn)':'var(--text)';
+  document.getElementById('daysUsed').textContent=used+' / 90';
+  document.getElementById('daysUsed').style.color=used>90?'var(--danger)':used>=75?'var(--warn)':'var(--ok)';
+
+  // Re-entry
+  let reentry=null;
+  if (used>=90) { for(let i=1;i<=180;i++){const d=new Date(today);d.setDate(d.getDate()+i);if(daysInWindow(d)<90){reentry=d;break;}} }
+  const re=document.getElementById('reentry');
+  re.textContent=reentry?fmt(reentry):(used<90?tr().now_lbl:'—');
+  re.style.color=used>=90?'var(--warn)':'var(--ok)';
+
+  // Must exit
+  const inNow=trips.some(t=>t.entry&&t.exit&&t.entry<=today&&t.exit>=today);
+  let me=null;
+  if(inNow&&left>0){me=new Date(today);me.setDate(me.getDate()+left-1);}
+  const mEl=document.getElementById('mustExit');
+  mEl.textContent=me?fmt(me):(left===0?tr().leave_now:'—');
+  mEl.style.color=me?'var(--warn)':(left===0?'var(--danger)':'var(--muted)');
+
+  document.getElementById('alertOk').classList.toggle('show',used>0&&used<75&&trips.length>0);
+  document.getElementById('alertWarn').classList.toggle('show',used>=75&&used<=90);
+  document.getElementById('alertDanger').classList.toggle('show',used>90);
+
+  renderTimeline(today);
+  calcProjection();
+  buildShareUrl();
+}
+
+// ═══════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════
+function renderTimeline(today) {
+  const card=document.getElementById('timelineCard'), con=document.getElementById('timeline');
+  const valid=trips.filter(t=>t.entry&&t.exit);
+  if(!valid.length){card.style.display='none';return;}
+  card.style.display='block';
+  const wEnd=today, wStart=new Date(today); wStart.setDate(wStart.getDate()-179);
+  const conflicts=getConflictIds();
+  con.innerHTML='';
+  valid.forEach(t=>{
+    const isConflict=conflicts.has(t.id);
+    const s=t.entry>wStart?t.entry:wStart, e=t.exit<wEnd?t.exit:wEnd;
+    if(e<s) return;
+    const lp=dBetween(wStart,s)/180*100, wp=(dBetween(s,e)+1)/180*100;
+    const bar=document.createElement('div');
+    bar.className='timeline-bar';
+    bar.style.left=lp+'%'; bar.style.width=Math.max(wp,.5)+'%';
+    bar.style.background=isConflict?'var(--danger)':'var(--ok)';
+    bar.style.opacity=isConflict?'0.5':'.85';
+    bar.title=`${fmt(t.entry)} → ${fmt(t.exit)}${isConflict?' ⚠ Conflict':''}`;
+    if(wp>5) bar.innerHTML=`<span class="timeline-bar-label">${dBetween(t.entry,t.exit)+1}d</span>`;
+    con.appendChild(bar);
+  });
+  const tp=dBetween(wStart,today)/180*100;
+  const m=document.createElement('div');
+  m.style.cssText=`position:absolute;left:${tp}%;top:0;width:2px;height:100%;background:rgba(232,213,163,.55);z-index:5;`;
+  con.appendChild(m);
+}
+
+// ═══════════════════════════════════════
+// PROJECTION
+// ═══════════════════════════════════════
+function calcProjection() {
+  const ev=document.getElementById('projEntry').value, xv=document.getElementById('projExit').value;
+  const res=document.getElementById('projResult');
+  if(!ev||!xv){res.classList.remove('show');return;}
+  const entry=toD(ev), exit=toD(xv);
+  if(exit<entry){res.classList.remove('show');return;}
+  const dur=dBetween(entry,exit)+1;
+  const orig=[...trips];
+  trips.push({id:99999,entry,exit});
+  let maxU=0, d=new Date(entry);
+  while(d<=exit){const u=daysInWindow(d,false);if(u>maxU)maxU=u;d.setDate(d.getDate()+1);}
+  trips=orig;
+  const over=maxU-90, tl=tr();
+  const html=over>0
+    ?`<span style="color:var(--danger)">${tl.proj_over} <strong>${over} ${tl.days_word}</strong>.</span><br>`
+    :`<span style="color:var(--ok)">${tl.proj_ok}</span><br>`;
+  res.innerHTML=html+`<span style="color:var(--muted)">${tl.proj_dur}: ${dur}${tl.ds} &nbsp;·&nbsp; ${tl.proj_max}: ${maxU}/90 &nbsp;·&nbsp; ${tl.proj_rem}: ${90-maxU}${tl.ds}</span>`;
+  res.classList.add('show');
+}
+
+// ═══════════════════════════════════════
+// SHARE
+// ═══════════════════════════════════════
+function buildShareUrl() {
+  const valid=trips.filter(t=>t.entry&&t.exit);
+  const el=document.getElementById('shareUrl');
+  if(!valid.length){
+    el.innerHTML=`<span>${tr().share_ph}</span>`;
+    document.getElementById('i-copy_btn').disabled=true; return;
+  }
+  document.getElementById('i-copy_btn').disabled=false;
+  const enc=valid.map(t=>iso(t.entry)+'_'+iso(t.exit)).join(',');
+  el.textContent=location.origin+location.pathname+'?trips='+encodeURIComponent(enc)+'&lang='+lang;
+}
+
+function copyShare() {
+  navigator.clipboard.writeText(document.getElementById('shareUrl').textContent).then(()=>{
+    const t=document.getElementById('copyToast');
+    t.style.opacity='1'; setTimeout(()=>t.style.opacity='0',2000);
+  });
+}
+
+function loadFromURL() {
+  const p=new URLSearchParams(location.search);
+  const l=p.get('lang'); if(l&&L[l]) setLang(l);
+  const tp=p.get('trips');
+  if(tp) {
+    tp.split(',').forEach(pair=>{
+      const [e,x]=pair.split('_');
+      if(e&&x) trips.push({id:++tid,entry:toD(e),exit:toD(x)});
+    });
+    renderTrips(); recalc();
+  }
+}
+
+// INIT
+buildCountries();
+buildFAQ();
+loadFromURL();
+recalc();
+</script>
+</body>
+</html>
