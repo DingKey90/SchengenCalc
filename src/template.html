@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="{{html_lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{canonical}}">
+{{!hreflang_links}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{brand}}">
+<meta property="og:title" content="{{og_title}}">
+<meta property="og:description" content="{{og_desc}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:locale" content="{{og_locale}}">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0e0f11">
+<link rel="icon" href="{{root}}favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{root}}assets/style.css?v={{css_v}}">
+<script type="application/ld+json">{{!jsonld}}</script>
+</head>
+<body>
+
+<header>
+  <div>
+    <a class="brand" href="{{self_href}}">{{brand}}</a>
+    <div class="subtitle">{{subtitle}}</div>
+  </div>
+  <div class="header-right">
+    <nav class="lang-switcher" aria-label="Language">{{!lang_links}}</nav>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <a href="#calculator">{{nav_calc}}</a>
+  <a href="#rule">{{nav_rule}}</a>
+  <a href="#countries">{{nav_countries}}</a>
+  <a href="#faq">{{nav_faq}}</a>
+</nav>
+
+<div class="page-wrap">
+<main class="main-col">
+
+  <div class="hero">
+    <h1>{{h1}}</h1>
+    <p>{{intro}}</p>
+  </div>
+
+  <section id="calculator">
+  <div class="card">
+    <h2 class="card-title">{{status_title}}</h2>
+    <div class="result-block">
+      <div class="ring-wrap">
+        <svg class="ring-svg" width="114" height="114" viewBox="0 0 114 114" aria-hidden="true">
+          <circle class="ring-track" cx="57" cy="57" r="47"/>
+          <circle class="ring-fill" id="ringFill" cx="57" cy="57" r="47" stroke-dasharray="295" stroke-dashoffset="295" stroke="var(--ok)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-days" id="daysLeft">90</div>
+          <div class="ring-label">{{ring_label}}</div>
+        </div>
+      </div>
+      <div class="result-stats">
+        <div class="stat-row"><span class="stat-label" data-tip="{{stat_used_tip}}">{{stat_used}}</span><span class="stat-value" id="daysUsed">0 / 90</span></div>
+        <div class="stat-row"><span class="stat-label">{{stat_limit}}</span><span class="stat-value">90 {{days_word}}</span></div>
+        <div class="stat-row"><span class="stat-label" data-tip="{{stat_exit_tip}}">{{stat_exit}}</span><span class="stat-value" id="mustExit">—</span></div>
+        <div class="stat-row"><span class="stat-label" data-tip="{{stat_reentry_tip}}">{{stat_reentry}}</span><span class="stat-value" id="reentry">—</span></div>
+      </div>
+    </div>
+    <div class="alert alert-ok" id="alertOk">✓ {{alert_ok}}</div>
+    <div class="alert alert-warn" id="alertWarn">⚠ {{alert_warn}}</div>
+    <div class="alert alert-danger" id="alertDanger" role="alert">✕ {{alert_danger}}</div>
+  </div>
+
+  <div class="card">
+    <div class="trips-header">
+      <h2 class="card-title" style="margin-bottom:0">{{trips_title}}</h2>
+      <button class="btn btn-accent" type="button" id="addTrip">{{add_trip}}</button>
+    </div>
+    <p class="small-note">{{trips_note}}</p>
+    <div class="trips-list" id="tripsList">
+      <div class="empty-state"><div class="big">✈</div><span>{{t_empty_trips}}</span></div>
+    </div>
+  </div>
+
+  <div class="card" id="timelineCard" style="display:none">
+    <h2 class="card-title">{{timeline_title}}</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="timeline-axis"><span id="axisStart"></span><span id="axisEnd"></span></div>
+    <div class="timeline-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--ok)"></div>{{leg_in}}</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(232,213,163,.55)"></div>{{leg_today}}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="card-title">{{planner_title}}</h2>
+    <p class="small-note">{{planner_note}}</p>
+    <div class="proj-row">
+      <label for="projEntry">{{plan_enter}}</label>
+      <input type="date" id="projEntry">
+      <label for="projExit">{{plan_until}}</label>
+      <input type="date" id="projExit">
+    </div>
+    <div class="proj-result" id="projResult" aria-live="polite"></div>
+  </div>
+
+  <div class="card">
+    <h2 class="card-title">{{share_title}}</h2>
+    <p class="small-note">{{share_desc}}</p>
+    <div class="share-box">
+      <div class="share-url" id="shareUrl">{{t_share_ph}}</div>
+      <button class="btn btn-sm" type="button" id="copyBtn" disabled>{{copy_btn}}</button>
+      <span class="copy-toast" id="copyToast">{{copy_toast}}</span>
+    </div>
+  </div>
+  </section>
+
+  <section class="card prose" id="rule">
+    <h2>{{rule_title}}</h2>
+    <div class="info-grid" style="margin-bottom:18px">
+      <div class="info-item"><div class="num">90</div><div class="desc">{{info_90}}</div></div>
+      <div class="info-item"><div class="num">180</div><div class="desc">{{info_180}}</div></div>
+      <div class="info-item"><div class="num">29</div><div class="desc">{{info_29}}</div></div>
+    </div>
+    {{!guide_html}}
+  </section>
+
+  <section class="card prose" id="countries">
+    <h2>{{countries_title}}</h2>
+    <p>{{countries_intro}}</p>
+    <ul class="countries-grid">{{!countries_html}}</ul>
+  </section>
+
+  <section class="card" id="faq">
+    <h2>{{faq_title}}</h2>
+    {{!faq_html}}
+  </section>
+
+</main>
+
+<aside class="side-col">
+  <div class="side-sticky">
+    <div class="side-card">
+      <div class="side-card-title">{{sidebar_facts}}</div>
+      {{!qf_html}}
+    </div>
+  </div>
+</aside>
+</div>
+
+<footer>
+  <p>{{footer}}</p>
+  <p>{{updated}} · <a href="https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/schengen-area_en" target="_blank" rel="noopener">{{link_eu}} ↗</a> · <a href="https://travel-europe.europa.eu/ees_en" target="_blank" rel="noopener">{{link_ees}} ↗</a></p>
+</footer>
+
+<script>window.SC={{!sc_json}};</script>
+<script src="{{root}}assets/app.js?v={{js_v}}" defer></script>
+</body>
+</html>

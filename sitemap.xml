@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://schengencalc.online/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://schengencalc.online/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://schengencalc.online/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://schengencalc.online/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://schengencalc.online/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schengencalc.online/"/>
+  </url>
+  <url>
+    <loc>https://schengencalc.online/de/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://schengencalc.online/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://schengencalc.online/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://schengencalc.online/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://schengencalc.online/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schengencalc.online/"/>
+  </url>
+  <url>
+    <loc>https://schengencalc.online/fr/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://schengencalc.online/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://schengencalc.online/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://schengencalc.online/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://schengencalc.online/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schengencalc.online/"/>
+  </url>
+  <url>
+    <loc>https://schengencalc.online/zh/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://schengencalc.online/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://schengencalc.online/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://schengencalc.online/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://schengencalc.online/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schengencalc.online/"/>
+  </url>
+</urlset>

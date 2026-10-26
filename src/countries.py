@@ -1,0 +1,35 @@
+# Schengen members: ISO code, year Schengen rules took effect, EU member?, localized names.
+COUNTRIES = [
+  ('AT', 1997, True,  {'en': 'Austria',        'de': 'Österreich',   'fr': 'Autriche',      'zh': '奥地利'}),
+  ('BE', 1995, True,  {'en': 'Belgium',        'de': 'Belgien',      'fr': 'Belgique',      'zh': '比利时'}),
+  ('BG', 2025, True,  {'en': 'Bulgaria',       'de': 'Bulgarien',    'fr': 'Bulgarie',      'zh': '保加利亚'}),
+  ('HR', 2023, True,  {'en': 'Croatia',        'de': 'Kroatien',     'fr': 'Croatie',       'zh': '克罗地亚'}),
+  ('CZ', 2007, True,  {'en': 'Czechia',        'de': 'Tschechien',   'fr': 'Tchéquie',      'zh': '捷克'}),
+  ('DK', 2001, True,  {'en': 'Denmark',        'de': 'Dänemark',     'fr': 'Danemark',      'zh': '丹麦'}),
+  ('EE', 2007, True,  {'en': 'Estonia',        'de': 'Estland',      'fr': 'Estonie',       'zh': '爱沙尼亚'}),
+  ('FI', 2001, True,  {'en': 'Finland',        'de': 'Finnland',     'fr': 'Finlande',      'zh': '芬兰'}),
+  ('FR', 1995, True,  {'en': 'France',         'de': 'Frankreich',   'fr': 'France',        'zh': '法国'}),
+  ('DE', 1995, True,  {'en': 'Germany',        'de': 'Deutschland',  'fr': 'Allemagne',     'zh': '德国'}),
+  ('GR', 2000, True,  {'en': 'Greece',         'de': 'Griechenland', 'fr': 'Grèce',         'zh': '希腊'}),
+  ('HU', 2007, True,  {'en': 'Hungary',        'de': 'Ungarn',       'fr': 'Hongrie',       'zh': '匈牙利'}),
+  ('IS', 2001, False, {'en': 'Iceland',        'de': 'Island',       'fr': 'Islande',       'zh': '冰岛'}),
+  ('IT', 1997, True,  {'en': 'Italy',          'de': 'Italien',      'fr': 'Italie',        'zh': '意大利'}),
+  ('LV', 2007, True,  {'en': 'Latvia',         'de': 'Lettland',     'fr': 'Lettonie',      'zh': '拉脱维亚'}),
+  ('LI', 2011, False, {'en': 'Liechtenstein',  'de': 'Liechtenstein','fr': 'Liechtenstein', 'zh': '列支敦士登'}),
+  ('LT', 2007, True,  {'en': 'Lithuania',      'de': 'Litauen',      'fr': 'Lituanie',      'zh': '立陶宛'}),
+  ('LU', 1995, True,  {'en': 'Luxembourg',     'de': 'Luxemburg',    'fr': 'Luxembourg',    'zh': '卢森堡'}),
+  ('MT', 2007, True,  {'en': 'Malta',          'de': 'Malta',        'fr': 'Malte',         'zh': '马耳他'}),
+  ('NL', 1995, True,  {'en': 'Netherlands',    'de': 'Niederlande',  'fr': 'Pays-Bas',      'zh': '荷兰'}),
+  ('NO', 2001, False, {'en': 'Norway',         'de': 'Norwegen',     'fr': 'Norvège',       'zh': '挪威'}),
+  ('PL', 2007, True,  {'en': 'Poland',         'de': 'Polen',        'fr': 'Pologne',       'zh': '波兰'}),
+  ('PT', 1995, True,  {'en': 'Portugal',       'de': 'Portugal',     'fr': 'Portugal',      'zh': '葡萄牙'}),
+  ('RO', 2025, True,  {'en': 'Romania',        'de': 'Rumänien',     'fr': 'Roumanie',      'zh': '罗马尼亚'}),
+  ('SK', 2007, True,  {'en': 'Slovakia',       'de': 'Slowakei',     'fr': 'Slovaquie',     'zh': '斯洛伐克'}),
+  ('SI', 2007, True,  {'en': 'Slovenia',       'de': 'Slowenien',    'fr': 'Slovénie',      'zh': '斯洛文尼亚'}),
+  ('ES', 1995, True,  {'en': 'Spain',          'de': 'Spanien',      'fr': 'Espagne',       'zh': '西班牙'}),
+  ('SE', 2001, True,  {'en': 'Sweden',         'de': 'Schweden',     'fr': 'Suède',         'zh': '瑞典'}),
+  ('CH', 2008, False, {'en': 'Switzerland',    'de': 'Schweiz',      'fr': 'Suisse',        'zh': '瑞士'}),
+]
+
+# Joined in two steps: air & sea borders 31 March 2024, land borders 1 January 2025
+TWO_STEP = {'BG', 'RO'}
