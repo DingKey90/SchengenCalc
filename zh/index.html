@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=acae703a">
+<link rel="stylesheet" href="../assets/style.css?v=bfff62ac">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "申根签证 90/180 天停留计算器", "url": "https://schengencalc.online/zh/", "description": "免费申根90/180天计算器：输入出入境日期，自动计算已用天数、最晚离境日和下次可入境日期，并检查未来行程是否超期。已更新至29个申根国及EES出入境系统。", "inLanguage": "zh-CN", "applicationCategory": "TravelApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}, {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "zh-CN", "mainEntity": [{"@type": "Question", "name": "申根90/180天规则是什么意思？", "acceptedAnswer": {"@type": "Answer", "text": "非欧盟/欧洲经济区公民在任意180天内，在申根区停留总计不得超过90天。这个180天是从你停留的每一天往回倒推计算的，所以窗口每天向前滚动一天。"}}, {"@type": "Question", "name": "入境当天和离境当天算不算？", "acceptedAnswer": {"@type": "Answer", "text": "都算。入境日和离境日都按完整一天计算，与过境的具体时间无关。当天往返也算一天。"}}, {"@type": "Question", "name": "持申根签证也要遵守90/180天规则吗？", "acceptedAnswer": {"@type": "Answer", "text": "要。你必须同时满足三个条件：在签证有效期内、不超过签证上注明的停留天数（Duration of stay）、并且符合90/180天规则。即使是多年多次往返签证，任意180天内也最多只能停留90天。"}}, {"@type": "Question", "name": "签证上写的停留天数和90/180规则有什么区别？", "acceptedAnswer": {"@type": "Answer", "text": "签证贴纸上的“停留天数”是这张签证允许的总天数上限，90/180天规则是滚动窗口的上限，两者要同时遵守，以先达到的那个为准。"}}, {"@type": "Question", "name": "待满90天离开90天后，可以再待90天吗？", "acceptedAnswer": {"@type": "Answer", "text": "可以。如果你连续停留90天后在申根区外待满90天，之前的天数就全部移出了180天窗口，可以重新停留90天。离开时间较短的话，只有已经移出窗口的天数才会被释放。"}}, {"@type": "Question", "name": "天数会在1月1日或离境后清零吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会。没有任何清零日期。窗口永远是“被检查那一天往前的180天”，离开申根区只是让旧的天数随时间移出窗口。"}}, {"@type": "Question", "name": "2026年申根国家有哪些？", "acceptedAnswer": {"@type": "Answer", "text": "奥地利、比利时、保加利亚、克罗地亚、捷克、丹麦、爱沙尼亚、芬兰、法国、德国、希腊、匈牙利、冰岛、意大利、拉脱维亚、列支敦士登、立陶宛、卢森堡、马耳他、荷兰、挪威、波兰、葡萄牙、罗马尼亚、斯洛伐克、斯洛文尼亚、西班牙、瑞典、瑞士，共29个国家。"}}, {"@type": "Question", "name": "在英国、爱尔兰、塞浦路斯的天数算吗？", "acceptedAnswer": {"@type": "Answer", "text": "不算。英国、爱尔兰和塞浦路斯都不属于申根区，土耳其、塞尔维亚、黑山、阿尔巴尼亚等国也不是。在这些国家的天数不计入90天。"}}, {"@type": "Question", "name": "EES是什么？会影响停留天数吗？", "acceptedAnswer": {"@type": "Answer", "text": "出入境系统（EES）于2026年4月10日全面运行，用指纹和面部图像代替护照盖章，自动记录出入境并计算已用天数。90/180天规则本身没有变化，但超期会被系统自动发现。"}}, {"@type": "Question", "name": "ETIAS是什么？中国护照需要吗？", "acceptedAnswer": {"@type": "Answer", "text": "ETIAS是给免签国家旅客的旅行授权。中国护照需要申请申根签证，不适用ETIAS。截至2026年10月ETIAS尚未启用，欧盟会提前数月公布启用日期。"}}, {"@type": "Question", "name": "超期停留会怎样？", "acceptedAnswer": {"@type": "Answer", "text": "可能面临罚款、遣返、入境禁令，并影响以后的签证申请。EES启用后，离境时超期会被自动记录。"}}, {"@type": "Question", "name": "这个计算器是官方的吗？", "acceptedAnswer": {"@type": "Answer", "text": "不是。它根据你输入的日期按标准90/180天规则计算，仅供参考。最终以边检和使领馆的判断为准。"}}]}]</script>
 </head>
 <body>
@@ -47,6 +47,7 @@
 
 <div class="page-wrap">
 <main class="main-col">
+
 
   <div class="hero">
     <h1>申根签证 90/180 天停留计算器</h1>
@@ -185,6 +186,7 @@
 <li class="country-card"><span class="flag" aria-hidden="true">🇸🇪</span><div><div class="cname">瑞典</div><div class="cnote">2001年加入</div></div></li>
 <li class="country-card"><span class="flag" aria-hidden="true">🇨🇭</span><div><div class="cname">瑞士</div><div class="cnote">非欧盟 · 2008年加入</div></div></li></ul>
   </section>
+
 
   <section class="card" id="faq">
     <h2>常见问题</h2>

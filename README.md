@@ -5,6 +5,7 @@ Free Schengen 90/180-day calculator in English, German, French and Chinese.
 ## Structure
 
 - `src/i18n/*.py` – page text per language (titles, guide, FAQ, UI strings)
+- `src/guides/*.py` – single-language landing pages (e.g. `spain.py` → `/spain/`); add a file to add a page
 - `src/countries.py` – Schengen member list
 - `src/template.html` – page layout
 - `assets/` – shared CSS and calculator logic (`app.js`)

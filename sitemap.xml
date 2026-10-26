@@ -36,4 +36,8 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://schengencalc.online/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schengencalc.online/"/>
   </url>
+  <url>
+    <loc>https://schengencalc.online/spain/</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
 </urlset>

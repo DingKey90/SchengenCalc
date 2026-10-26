@@ -2,7 +2,7 @@
 
     python build.py
 
-Outputs index.html (English), de/, fr/, zh/, sitemap.xml, robots.txt and a redirect
+Outputs index.html (English), de/, fr/, zh/, guide pages from src/guides/, sitemap.xml, robots.txt and a redirect
 for the old schengen-calculator.html URL. Edit content in src/i18n/*.py, layout in
 src/template.html, behaviour in assets/app.js.
 """
@@ -65,7 +65,7 @@ def faq_html(c):
         for i, (q, a) in enumerate(c['faqs']))
 
 
-def jsonld(lang, c, url):
+def jsonld(c, url):
     data = [
         {
             '@context': 'https://schema.org',
@@ -88,8 +88,7 @@ def jsonld(lang, c, url):
                 for q, a in c['faqs']],
         },
     ]
-    # '</' must not appear inside a <script> block
-    return json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
+    return data
 
 
 def render(template, values):
@@ -106,20 +105,73 @@ def asset_version(name):
     return hashlib.sha1((ROOT / 'assets' / name).read_bytes()).hexdigest()[:8]
 
 
-def build_page(lang, template):
-    c = CONTENT[lang]
-    root = '../' * PATHS[lang].count('/')
-    url = SITE_URL + PATHS[lang]
+def load_guides():
+    """Single-language landing pages (e.g. /spain/) that reuse a home page's UI strings."""
+    guides = []
+    for f in sorted((SRC / 'guides').glob('*.py')):
+        g = load_module(f)
+        base = CONTENT[g.BASE]
+        c = {**base, **g.C, 't': {**base['t'], **g.C.get('t', {})}}
+        guides.append({'id': f.stem, 'lang': g.BASE, 'path': g.PATH, 'c': c,
+                       'link_title': g.LINK_TITLE, 'link_desc': g.LINK_DESC})
+    return guides
 
-    hreflang = [f'<link rel="alternate" hreflang="{CONTENT[l]["hreflang"]}" href="{SITE_URL + PATHS[l]}">' for l in LANGS]
-    hreflang.append(f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}">')
+
+GUIDES = load_guides()
+
+
+def script_json(data):
+    # '</' must not appear inside a <script> block
+    return json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
+
+
+def nav_html(c, sections):
+    labels = {'calculator': c['nav_calc'], 'rule': c['nav_rule'], 'countries': c['nav_countries'], 'faq': c['nav_faq']}
+    return '\n  '.join(f'<a href="#{s}">{esc(labels[s])}</a>' for s in sections)
+
+
+def countries_section(lang, c):
+    return (f'  <section class="card prose" id="countries">\n    <h2>{esc(c["countries_title"])}</h2>\n'
+            f'    <p>{esc(c["countries_intro"])}</p>\n'
+            f'    <ul class="countries-grid">{countries_html(lang, c)}</ul>\n  </section>')
+
+
+def guides_section(c, lang, root, exclude=None):
+    items = [g for g in GUIDES if g['lang'] == lang and g['id'] != exclude]
+    if not items:
+        return ''
+    links = ''.join(
+        f'<li><a href="{root + g["path"]}">{esc(g["link_title"])}</a><span>{esc(g["link_desc"])}</span></li>'
+        for g in items)
+    return (f'  <section class="card" id="guides">\n    <h2>{esc(c["guides_title"])}</h2>\n'
+            f'    <ul class="guide-links">{links}</ul>\n  </section>\n')
+
+
+def build_page(page_id, lang, c, path, template, is_home):
+    root = '../' * path.count('/')
+    url = SITE_URL + path
+    home_href = root + PATHS[lang] or './'
+
+    hreflang = []  # guide pages have no translations (yet)
+    if is_home:
+        hreflang = [f'<link rel="alternate" hreflang="{CONTENT[l]["hreflang"]}" href="{SITE_URL + PATHS[l]}">' for l in LANGS]
+        hreflang.append(f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}">')
     lang_links = ''.join(
         f'<a class="lang-btn{" active" if l == lang else ""}" href="{root + PATHS[l] or "./"}" hreflang="{CONTENT[l]["hreflang"]}"'
-        f' lang="{CONTENT[l]["html_lang"]}"{" aria-current=\"page\"" if l == lang else ""}>{esc(CONTENT[l]["label"])}</a>'
+        f' lang="{CONTENT[l]["html_lang"]}"{" aria-current=\"page\"" if is_home and l == lang else ""}>{esc(CONTENT[l]["label"])}</a>'
         for l in LANGS)
 
+    ld = jsonld(c, url)
+    breadcrumb = ''
+    if not is_home:
+        ld.append({'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': CONTENT[lang]['brand'], 'item': SITE_URL + PATHS[lang]},
+            {'@type': 'ListItem', 'position': 2, 'name': c['crumb'], 'item': url}]})
+        breadcrumb = (f'  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="{home_href}">'
+                      f'{esc(CONTENT[lang]["brand"])}</a> › {esc(c["crumb"])}</nav>')
+
     sc = {
-        'lang': lang,
+        'lang': page_id,
         'locale': c['locale'],
         't': c['t'],
         'langPaths': {l: root + PATHS[l] or './' for l in LANGS},
@@ -131,16 +183,19 @@ def build_page(lang, template):
         'css_v': asset_version('style.css'),
         'js_v': asset_version('app.js'),
         'canonical': url,
-        'self_href': root + PATHS[lang] or './',
+        'self_href': home_href,
         'hreflang_links': '\n'.join(hreflang),
         'lang_links': lang_links,
-        'jsonld': jsonld(lang, c, url),
-        'countries_html': countries_html(lang, c),
+        'nav_html': nav_html(c, ['calculator', 'rule', 'countries', 'faq'] if is_home else ['calculator', 'rule', 'faq']),
+        'breadcrumb_html': breadcrumb,
+        'jsonld': script_json(ld),
+        'countries_section': countries_section(lang, c) if is_home else '',
+        'guides_section': guides_section(c, lang, root, exclude=None if is_home else page_id),
         'faq_html': faq_html(c),
         'qf_html': ''.join(f'<div class="qf"><span>{esc(k)}</span><span class="qf-val">{esc(v)}</span></div>' for k, v in c['qf']),
-        'sc_json': json.dumps(sc, ensure_ascii=False).replace('</', '<\\/'),
+        'sc_json': script_json(sc),
     })
-    out = ROOT / PATHS[lang] / 'index.html'
+    out = ROOT / path / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render(template, values), encoding='utf-8')
     print('wrote', out.relative_to(ROOT))
@@ -151,6 +206,7 @@ def build_extras():
     alts = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{CONTENT[l]["hreflang"]}" href="{SITE_URL + PATHS[l]}"/>' for l in LANGS)
     alts += f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}"/>'
     urls = ''.join(f'\n  <url>\n    <loc>{SITE_URL + PATHS[l]}</loc>\n    <lastmod>{today}</lastmod>{alts}\n  </url>' for l in LANGS)
+    urls += ''.join(f'\n  <url>\n    <loc>{SITE_URL + g["path"]}</loc>\n    <lastmod>{today}</lastmod>\n  </url>' for g in GUIDES)
     (ROOT / 'sitemap.xml').write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
@@ -177,5 +233,7 @@ def build_extras():
 if __name__ == '__main__':
     tpl = (SRC / 'template.html').read_text(encoding='utf-8')
     for l in LANGS:
-        build_page(l, tpl)
+        build_page(l, l, CONTENT[l], PATHS[l], tpl, is_home=True)
+    for g in GUIDES:
+        build_page(g['id'], g['lang'], g['c'], g['path'], tpl, is_home=False)
     build_extras()

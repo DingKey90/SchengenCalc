@@ -35,15 +35,13 @@
 </header>
 
 <nav class="section-nav">
-  <a href="#calculator">{{nav_calc}}</a>
-  <a href="#rule">{{nav_rule}}</a>
-  <a href="#countries">{{nav_countries}}</a>
-  <a href="#faq">{{nav_faq}}</a>
+  {{!nav_html}}
 </nav>
 
 <div class="page-wrap">
 <main class="main-col">
 
+{{!breadcrumb_html}}
   <div class="hero">
     <h1>{{h1}}</h1>
     <p>{{intro}}</p>
@@ -129,12 +127,9 @@
     {{!guide_html}}
   </section>
 
-  <section class="card prose" id="countries">
-    <h2>{{countries_title}}</h2>
-    <p>{{countries_intro}}</p>
-    <ul class="countries-grid">{{!countries_html}}</ul>
-  </section>
+{{!countries_section}}
 
+{{!guides_section}}
   <section class="card" id="faq">
     <h2>{{faq_title}}</h2>
     {{!faq_html}}
